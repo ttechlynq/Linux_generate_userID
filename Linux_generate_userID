@@ -1,0 +1,56 @@
+#!/bin/bash
+#################################################
+#This script can be used to simply create a new #
+#user ID for someone. It works by accepting two #
+#names (first and last names). The script takes #
+#first letter of the firstname, combines it with#
+#the first 5 letters of the user's lastname and #
+#ends up with a typical user ID (example: John  #
+#Peters becomes jpeter).                        #
+#The script can also be easily adapted to       #
+#generate a password for for the new user.      #
+#Also import is to ensure the generated IDs are #
+#unique; which can easily be implemented.       @
+                                                #
+#Author: Chuck Ezekiel  :24/03/2019             #
+#################################################
+
+GO=true;
+while $GO; do
+      echo -n "Do you want to create a new username? ('Y/y' to continue or 'N/n' to quit): "
+      read ANSWER
+GO=false;
+if [[ $ANSWER == 'Y' ]] || [[ $ANSWER == 'y' ]]; then 
+echo -n "Enter firstname: ";
+      read FIRSTNAME
+echo -n "Enter lastname: ";
+      read LASTNAME
+
+if [[ -z "$FIRSTNAME" ]] || ! [[ "$FIRSTNAME" =~ ^[a-zA-Z]+$ ]]; then  #Ensure firstname is not empty and is only strings
+      echo "Firstname is either empty or does not contain only strings"
+      echo "This needs to be fixed to continue"
+exit 1
+
+elif [[ -z "$LASTNAME" ]] || ! [[ "$LASTNAME" =~ ^[a-zA-Z]+$ ]]; then #Ensure lastname is not empty and is only strings
+echo "Lastname is either empty or does not contain only strings"
+echo "This needs to be fixed to continue"
+exit
+
+exit 1
+else
+echo "You have supplied $FIRSTNAME $LASTNAME for this user." #Show the supplied full name
+echo "A user ID will now be created for the user."
+
+      firstLetter=${FIRSTNAME:0:1} #Retrieve the first letter of the firstname
+      lastLetters=${LASTNAME:0:5}  #Retrieve the last 5 letters of the lastname
+      userID=$firstLetter$lastLetters #Join the retrieved letters together
+      echo "A new user ID has been created as $userID" #Show the new ID generated
+break 
+fi
+fi
+if [[ $ANSWER == 'N' ]] || [[ $ANSWER == 'n' ]]; then #Keep presenting till 'Y' or 'y' is selected
+ echo "Invalid option chosen"
+ GO=true;
+fi
+done  
+      echo "Bye!"
